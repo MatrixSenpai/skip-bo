@@ -1,0 +1,21 @@
+[package]
+name = "skip-bo-server"
+version = "0.0.0-alpha.1"
+edition = "2021"
+
+[dependencies]
+log = "0.4.21"
+pretty_env_logger = "0.5.0"
+dotenv = "0.15.0"
+rand = "0.8.5"
+juniper = "0.16.1"
+juniper_actix = "0.5.0"
+juniper_graphql_ws = { version = "0.4.0", features = ["graphql-ws"] }
+actix-web = "4.5.1"
+actix-cors = "0.7.0"
+sonyflake = "0.2.0"
+tokio = "1.37.0"
+
+[lints.rust]
+dead_code = "allow"
+unused = "allow"
