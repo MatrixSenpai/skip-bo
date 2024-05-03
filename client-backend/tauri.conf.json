@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "identifier": "com.tauri.dev",
   "build": {
+    "beforeDevCommand": "bun run start",
+    "beforeBuildCommand": "bun run build",
+    "devUrl": "http://127.0.0.1:8080/",
     "frontendDist": "../client-frontend/dist"
   },
   "app": {
@@ -10,7 +13,7 @@
     "windows": [
       {
         "title": "skip-bo",
-        "width": 800,
+        "width": 1200,
         "height": 600
       }
     ],

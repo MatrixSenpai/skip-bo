@@ -1,7 +1,7 @@
 use juniper::{GraphQLEnum, GraphQLInputObject};
 use std::fmt::Display;
 
-use crate::schema::database::Id;
+use crate::game_models::identifier::Id;
 
 #[derive(GraphQLEnum, Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub enum TurnPhase {

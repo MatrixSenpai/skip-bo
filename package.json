@@ -1,11 +1,13 @@
 {
-    "name": "skip-bo",
-    "version": "0.0.1-alpha.1",
-    "workspaces": [
-        "client-frontend"
-    ],
-    "scripts": {
-        "start": "bun --cwd client-frontend start",
-        "build": "bun --cwd client-frontend build"
-    }
+  "name": "skip-bo",
+  "version": "0.0.1-alpha.1",
+  "workspaces": [
+    "client-frontend"
+  ],
+  "scripts": {
+    "start": "bun --cwd client-frontend start",
+    "build": "bun --cwd client-frontend build"
+  },
+  "devDependencies": {
+  }
 }

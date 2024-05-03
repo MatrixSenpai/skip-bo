@@ -1,12 +1,13 @@
 'use strict'
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.tsx',
+    entry: path.resolve(__dirname, 'src/index.tsx'),
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
@@ -38,19 +39,19 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js'],
-        modules: [
-            'node_modules',
-            path.resolve(__dirname, 'src'),
+        plugins: [
+            new TsconfigPathsPlugin(),
         ]
     },
     devServer: {
         static: path.resolve(__dirname, 'dist'),
         port: 8080,
         hot: true,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/assets/html/index.html'),
-        })
+        }),
     ]
 }

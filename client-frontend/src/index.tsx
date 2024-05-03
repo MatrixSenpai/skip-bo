@@ -3,7 +3,9 @@ import * as _ from 'bootstrap';
 
 import 'assets/css/styles.scss';
 
+import { App } from 'app';
+
 const documentRoot = document.getElementById('root')!;
 const root = createRoot(documentRoot);
 
-root.render(<h1>Hello</h1>);
+root.render(<App />);

@@ -12,7 +12,8 @@
         "jsx": "react-jsx",
         "allowJs": true,
         "outDir": "./dist/",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
+        "baseUrl": "./src",
 
         // Best practices
         "strict": true,

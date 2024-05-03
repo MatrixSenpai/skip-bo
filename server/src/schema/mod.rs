@@ -1,11 +1,10 @@
-pub mod database;
-pub mod query;
-pub mod mutation;
+mod query;
+mod mutation;
 
-use juniper::{RootNode, EmptySubscription};
+use juniper::{RootNode, EmptySubscription, EmptyMutation};
 
-use database::Database;
-use query::Query;
-use mutation::Mutation;
+use super::database::MainContext;
 
-pub type Schema = RootNode<'static, Query, Mutation, EmptySubscription<Database>>;
+pub use query::Query;
+pub use mutation::Mutation;
+pub type Schema = RootNode<'static, Query, Mutation, EmptySubscription<MainContext>>;

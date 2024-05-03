@@ -5,7 +5,7 @@ use sonyflake::Sonyflake;
 use juniper::graphql_object;
 
 use crate::card::{Card, Rank};
-use crate::schema::database::Id;
+use crate::game_models::identifier::Id;
 use crate::turn_info::{PlayBuildActionSource, PlayDiscardActionSource};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Ord, PartialOrd)]

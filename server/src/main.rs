@@ -1,20 +1,20 @@
 use actix_web::{*, web::*, http::header::*};
+use mongodb::options::ClientOptions;
 
 #[macro_use]
 extern crate log;
 
-mod card;
-mod player;
-mod game;
 mod schema;
 mod turn_info;
+mod database;
+mod game_models;
+mod models;
 
 use schema::{
-    Schema,
-    database::Database,
-    query::Query,
-    mutation::Mutation,
+    Schema, Query, Mutation,
 };
+use database::Database;
+use crate::database::MainContext;
 
 async fn graphql(
     req: HttpRequest,
@@ -22,12 +22,18 @@ async fn graphql(
     schema: Data<Schema>,
     db: Data<Database>,
 ) -> Result<HttpResponse, Error> {
-    juniper_actix::graphql_handler(
+    let context = MainContext(db, req.headers().clone());
+
+    let mut response = juniper_actix::graphql_handler(
         &schema,
-        &db,
+        &context,
         req,
         payload,
-    ).await
+    ).await?;
+
+    response.headers_mut().insert(HeaderName::from_static("x-cow"), HeaderValue::from_static("moo"));
+
+    Ok(response)
 }
 async fn playground() -> Result<HttpResponse, Error> {
     juniper_actix::playground_handler("/graphql", None).await
@@ -38,12 +44,16 @@ async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
     pretty_env_logger::init();
 
+    let db_options = ClientOptions::parse("mongodb://127.0.0.1:27017").await.unwrap();
+
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(
                 Schema::new(Query, Mutation, juniper::EmptySubscription::new())
             ))
-            .app_data(Data::new(Database::new()))
+            .app_data(Data::new(
+                Database::new(db_options.clone())
+            ))
             .wrap(
                 actix_cors::Cors::default()
                     .allow_any_origin()
@@ -51,6 +61,8 @@ async fn main() -> std::io::Result<()> {
                     .allowed_headers(vec![
                         ACCEPT,
                         CONTENT_TYPE,
+                        HeaderName::from_static("x-user"),
+                        HeaderName::from_static("x-cmac"),
                     ])
                     .max_age(64000)
             )
