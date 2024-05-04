@@ -1,0 +1,42 @@
+input CreateDraftGameRequest {
+    hostName: String!
+    gameName: String
+    privateGame: Boolean!
+    teams: Boolean!
+    computerFilled: Boolean!
+}
+
+scalar Id
+
+type CreateDraftGameResponse {
+    gameCode: String!
+    gameId: Id!
+    hostPlayerId: Id!
+}
+
+type DraftGame {
+    id: Id!
+    gameCode: String!
+    gameName: String!
+    private: Boolean!
+    teams: Boolean!
+    playerCount: Int!
+    players: [DraftPlayer!]!
+}
+
+type DraftPlayer {
+    id: Id!
+    name: String!
+    team: Id!
+}
+
+type Mutation {
+    createDraftGame(data: CreateDraftGameRequest!): CreateDraftGameResponse!
+}
+
+type Query {
+    apiVersion: String!
+    publicGames: [DraftGame!]!
+    gameByCode(code: String!): String!
+}
+

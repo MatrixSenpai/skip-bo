@@ -1,7 +1,9 @@
 use juniper::graphql_object;
+use futures::TryStreamExt;
+use mongodb::bson::doc;
 
 use crate::database::*;
-use crate::game_models::draft_game::DraftGame;
+use crate::models::database::draft_game::DraftGame;
 
 pub struct Query;
 #[graphql_object]
@@ -10,9 +12,17 @@ impl Query {
         "game_states.0.1-alpha.1"
     }
 
-    async fn draft_games(&self, ctx: &MainContext) -> Result<Vec<DraftGame>, String> {
-        let games = ctx.0.get_draft_games().await?;
-        Ok(games)
+    async fn public_games(&self, ctx: &MainContext) -> Result<Vec<DraftGame>, String> {
+        let game_collection = ctx.0.get_collection::<DraftGame>(MongodbKey::Game);
+        let query = doc! { "private": false };
+        let results = game_collection.find(query, None).await.unwrap()
+            .try_collect::<Vec<DraftGame>>().await.unwrap();
+
+        Ok(results)
+    }
+
+    async fn game_by_code(&self, ctx: &MainContext, code: String) -> Result<String, String> {
+        todo!()
     }
 
     // async fn draft_games(&self, ctx: &Database) -> Result<Vec<DraftGame>, String> {

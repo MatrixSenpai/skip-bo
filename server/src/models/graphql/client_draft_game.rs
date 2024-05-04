@@ -20,7 +20,7 @@ pub struct CreateDraftGameResponse {
 
 #[derive(GraphQLInputObject, Debug, Serialize, Deserialize)]
 pub struct UpdateDraftGameRequest {
-    host_name: Option<String>,
+    host_id: Option<Id>,
     game_name: Option<String>,
     private_game: Option<bool>,
     teams: Option<bool>,

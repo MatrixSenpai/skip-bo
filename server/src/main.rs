@@ -7,7 +7,6 @@ extern crate log;
 mod schema;
 mod turn_info;
 mod database;
-mod game_models;
 mod models;
 
 use schema::{
@@ -61,8 +60,9 @@ async fn main() -> std::io::Result<()> {
                     .allowed_headers(vec![
                         ACCEPT,
                         CONTENT_TYPE,
-                        HeaderName::from_static("x-user"),
                         HeaderName::from_static("x-cmac"),
+                        HeaderName::from_static("x-current-player"),
+                        HeaderName::from_static("x-current-lobby"),
                     ])
                     .max_age(64000)
             )
